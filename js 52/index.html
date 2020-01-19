@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+</head>
+<body>
+  
+<h1>Coder shiyar</h1>
+
+<script>
+var deviceSystem = navigator.userAgent.toLowerCase();
+
+// if(deviceSystem.includes("firefox") || deviceSystem.includes("chrome")){
+//   alert("انا استخدم كروم");
+// }
+
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini| Windows Phone/i.test(navigator.userAgent) ) {
+    // is mobile..
+    alert("انا مستخدم هاتف");
+}else{
+  alert("انا مستخدم كمبيوتر");
+}
+
+
+
+</script>
+</body>
+</html>
