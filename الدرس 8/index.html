@@ -1,46 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
+    <meta charset="UTF-8">
     <title></title>
-
-  <style>
-thead{
-  background-color: red;
-  color:white;
-}
-tbody{
-  background-color: yellow;
-}
-
-tfoot{
-  background-image: url("photo.jpg");
-  background-size: 100% 100%;
-  /* اول 100 % هي لعرض وثاني لطول , يقوم بالملى مساحة الخانة محتوى المختار */
-}
- </style>
+    <style>
+       th , td{
+          border:1px solid black; 
+            padding: 8px;
+            /* direction: rtl; */
+       } 
+    </style>
 </head>
-<body>
+<body dir="rtl">
 
-<table border="2">
-<thead>
- <tr>
-  <td>1</td>
-  <td>2</td>
- </tr>
-</thead>
-<tbody>
- <tr>
-  <td>محتوى</td>
-  <td>محتوى 2</td>
- </tr>
-</tbody>
-<tfoot>
- <tr>
-  <td>نهاية</td>
-  <td>2نهاية</td>
- </tr>
-</tfoot>
+<table width="100%">
+   <thead>
+    <tr>
+        <th>اسم</th>
+        <th>العمر</th>
+        <th>الدولة</th>
+    </tr> 
+   </thead>
+   <tbody>
+    <tr>
+        <td >شيار</td>
+        <td>20</td>
+        <td>هولندا</td>
+    </tr>
+   
+    <tr>
+       <td>ديار</td>
+       <td>22</td>
+       <td>هولندا</td>
+   </tr>
+   </tbody>
+
+   <tfoot>
+   <tr>
+       <td>رقم تلفون</td>
+       <td colspan="2">03279497234</td>
+      
+   </tr>
+   </tfoot>
+
+  
+ 
+
 </table>
-
 </body>
 </html>
