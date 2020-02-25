@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
+    <meta charset="UTF-8">
     <title></title>
+
 </head>
 <body>
-<video src="video.mp4" controls width="600px"  height="400px" poster="image.png" autoplay/>
+
+  <video poster="icon.jpg" preload="metadata"  controls src="video.mp4" width="50%">
+
+  </video>
 </body>
 </html>
 
-<!--
-==========
-poster
+<!-- 
+muted  لجعل صوت صامت
+autoplay  لتشغيل الملف الصوت تلقائي
 controls
-autoplay
-poster
-muted
-height
-width
-preload
-<video preload="auto|metadata|none">
+loop  لتكرار عمل ملف صوتي بعدما ينتهي بشكل تلقائي
+
+ لتحكم بمتى يتم تحميل ملف الصوتي
+preload="auto" 
+preload="metadata"   يتم تحميل بعدما يتم تحميل الصفحة
+preload="none"
+		  
  -->
