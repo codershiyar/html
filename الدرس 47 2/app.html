@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coder Shiyar</title>
+</head>
+<body>
+
+    <!-- true  صح 
+        false  خطا
+    -->
+
+    <span id="text">  Coder Shiyar </span>  
+    <button onclick="save()" type="button"> حفظ</button>
+     <button onclick="edit()" type="button">تعديل </button>
+
+     <script>
+       function save(){
+        document.getElementById("text").contentEditable = "false";
+       }  
+       function edit(){
+        document.getElementById("text").contentEditable = "true";
+       }
+     </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coder Shiyar</title>
+</head>
+<body>
+
+    <button onclick="openDialog()"> عرض مزيد</button>
+<dialog id="box">
+    <h2> Coder Shiyar </h2>
+    <img src="logo.jpg" width="200"/> 
+    <br>
+    <button onclick="closeDialog()"> اغلاق</button>
+</dialog>
+
+<script>
+    function openDialog(){
+        document.getElementById("box").setAttribute("open","true");
+    }
+    function closeDialog(){
+        document.getElementById("box").removeAttribute("open");
+    }
+</script>
+</body>
+</html>
