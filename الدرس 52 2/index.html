@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <title>Coder Shiyar</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+    <form>
+        <input name="email" type="email" required oninvalid="error_message(this)"  onchange="error_message(this)"/>
+        <input  name="sms" type="text" required oninvalid="error_message1(this)"  onchange="error_message1(this)"/>
+        <br>
+        <select name="language" required oninvalid="this.setCustomValidity('رجاء قم بتحديد احد الخيارات')">
+            <option value="" > اختار لغتك </option>
+            <option value="kurdish"> الكردية </option>
+            <option value="arabic"> العربية </option>
+            <option value="english"> الإنجليزية</option>
+        </select>
+        <button type="submit"> تسجيل </button>
+    </form>
+
+    <script>
+        function error_message(input){
+            if (input.value == '') {
+                input.setCustomValidity('رجاء قم بتعبئة البيانات');
+            }  else if (input.validity.typeMismatch){
+                input.setCustomValidity('بريد الكتروني غير صالح , قم بتجربة بريد مختلف');
+            }
+            else{ input.setCustomValidity('');}
+                return true;   
+         }
+        
+         function error_message1(input){
+            if (input.value == '') {
+                input.setCustomValidity('رجاء قم بوضع رسالة او نص');
+            }  else if (input.validity.typeMismatch){
+                input.setCustomValidity('بريد الكتروني غير صالح , قم بتجربة بريد مختلف');
+            }
+            else{ input.setCustomValidity('');}
+                return true;   
+         }
+
+
+
+    </script>
+    </body> 
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- function error_message(input){         
+    if (input.value == '') 
+
+// ضع هنا رسالة الذي ترغب بأن يتم عرضها
+// للمستخدم عند عدم وضع قيمة في حقل اجباري
+{ input.setCustomValidity('رجاء قم بتعبئة البيانات');}
+
+// ضع هنا رسالة الذي ترغب بأن يتم عرضها للمستخدم عند 
+// وضع قيمة غير صالحة في حقل النصي
+else if (input.validity.typeMismatch){
+    input.setCustomValidity('رجاء تعبئة بيانات صالحة');
+    }
+
+// ضع هنا رسالة الذي ترغب بأن يتم عرضها للمستخدم عند 
+// الوضع قيمة صالحة في الحقل الاجباري
+else{ input.setCustomValidity('');}
+        
+  return true;      
+} -->
