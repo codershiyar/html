@@ -7,8 +7,8 @@
     </head>
     <body>
     <form>
-        <input name="email" type="email" required oninvalid="error_message(this)"  onchange="error_message(this)"/>
-        <input  name="sms" type="text" required oninvalid="error_message1(this)"  onchange="error_message1(this)"/>
+        <input name="email" type="email" required oninvalid="error_message(this)"  oninput="error_message(this)"/>
+        <input  name="sms" type="text" required oninvalid="error_message1(this)"  oninput="error_message1(this)"/>
         <br>
         <select name="language" required oninvalid="this.setCustomValidity('رجاء قم بتحديد احد الخيارات')">
             <option value="" > اختار لغتك </option>
@@ -22,11 +22,15 @@
     <script>
         function error_message(input){
             if (input.value == '') {
+// هنا ضمن اقتباس النصي يمكنك تحديد الرسالة الخطا الذي ترغب بعرضها للمستخدم في حال لم يقوم بتعبئة او تحديد بيانات لأجل الحقول الإجبارية
                 input.setCustomValidity('رجاء قم بتعبئة البيانات');
             }  else if (input.validity.typeMismatch){
+// هنا ضمن اقتباس النصي يمكنك تحديد الرسالة الخطا الذي ترغب بعرضها للمستخدم في حال قام  بتعبئة البيانات ولكن البيانات كانت غير صالحة
                 input.setCustomValidity('بريد الكتروني غير صالح , قم بتجربة بريد مختلف');
             }
-            else{ input.setCustomValidity('');}
+            else{ 
+//هنا في حال قام المستخدم بتعبئة البيانات وبيانات كانت صالحة , سوف يخفي الرسالة الخطا , ويجعل الزر من نوع سوبميت قابل للنقر لارسال البيانات عبر فورم
+		input.setCustomValidity('');}
                 return true;   
          }
         
