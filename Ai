@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI সার্চ পোর্টাল</title>
+<style>
+  /* রিল্যাক্সিং ব্লু-গ্রিন কালার থিম */
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: #014d4d;
+  }
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    background: #00796b;
+    padding: 10px 20px;
+    box-shadow: 0 2px 8px rgba(0, 121, 107, 0.3);
+  }
+
+  .top-bar button {
+    background: #004d40;
+    border: none;
+    color: #e0f2f1;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+  }
+
+  .top-bar button:hover {
+    background: #00251a;
+  }
+
+  header {
+    text-align: center;
+    padding: 20px 0 5px 0;
+    color: #00695c;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+  }
+
+  #currentDate {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  #currentTime {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 4px;
+    letter-spacing: 2px;
+  }
+
+  #uptime {
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: 6px;
+    color: #00796b;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    justify-content: flex-end;
+  }
+
+  .search-area {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 5px;
+  }
+
+  select {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 2px solid #4db6ac;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    background: #e0f2f1;
+    color: #004d40;
+    font-weight: 600;
+  }
+
+  select:focus {
+    outline: none;
+    border-color: #00796b;
+    background: #b2dfdb;
+  }
+
+  #previewContainer {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    justify-content: center;
+  }
+
+  #previewContainer img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+  }
+
+  #previewContainer img:hover {
+    transform: scale(1.05);
+  }
+
+  .input-button-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .input-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .input-wrapper input[type="text"] {
+    width: 100%;
+    padding: 12px 15px 12px 40px;
+    font-size: 16px;
+    border-radius: 8px 8px 0 0;
+    border: 2px solid #4db6ac;
+    border-bottom: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    background: #e0f2f1;
+    color: #004d40;
+    font-weight: 600;
+  }
+
+  .input-wrapper input[type="text"]:focus {
+    outline: none;
+    border-color: #00796b;
+    background: #b2dfdb;
+  }
+
+  .plus-icon-inside {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    background: #00796b;
+    color: white;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    user-select: none;
+    transition: background 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+
+  .plus-icon-inside:hover {
+    background: #004d40;
+  }
+
+  button.search-btn {
+    width: 100%;
+    padding: 16px 0;
+    font-size: 20px;
+    border-radius: 0 0 8px 8px;
+    border: 2px solid #4db6ac;
+    border-top: none;
+    background: #009688;
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,150,136,0.3);
+  }
+
+  button.search-btn:hover {
+    background: #00695c;
+    box-shadow: 0 6px 12px rgba(0,105,92,0.5);
+  }
+</style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <button onclick="window.open('https://accounts.google.com/signin', '_blank')">Sign In</button>
+    <button id="gmailContactBtn">Gmail</button>
+  </div>
+
+  <header>
+    <div id="currentDate">তারিখ: --/--/----</div>
+    <div id="currentTime">সময়: --:--:--</div>
+    <div id="uptime">এ আই চালু হয়েছে: 0 বছর 0 মাস 0 দিন 0 ঘন্টা 0 মিনিট 0 সেকেন্ড</div>
+  </header>
+
+  <main>
+    <div class="search-area">
+
+      <div id="previewContainer"></div>
+
+      <select id="aiSelector" title="AI নির্বাচন করুন">
+        <option value="chatgpt">ChatGPT</option>
+        <option value="gemini">Gemini</option>
+        <option value="claude">Claude</option>
+        <option value="perplexity">Perplexity</option>
+        <option value="copilot">Copilot (Bing)</option>
+        <option value="bard">Google Bard</option>
+        <option value="anthropic">Anthropic (Claude)</option>
+        <option value="openai">OpenAI GPT-4</option>
+        <option value="jasper">Jasper AI</option>
+        <option value="writesonic">Writesonic</option>
+        <option value="chatsonic">ChatSonic</option>
+        <option value="deepmind">DeepMind</option>
+        <option value="huggingface">Hugging Face</option>
+        <option value="youchat">YouChat</option>
+        <option value="replit">Replit AI</option>
+        <option value="copyai">Copy.ai</option>
+        <option value="veo3">VEO 3</option>
+        <option value="gemini_video">Gemini AI Video Generator</option>
+      </select>
+
+      <div class="input-button-wrapper">
+        <div class="input-wrapper">
+          <label for="imageInput" class="plus-icon-inside" title="ছবি সিলেক্ট করুন">+</label>
+          <input type="file" id="imageInput" accept="image/*" style="display:none;" multiple />
+          <input type="text" id="queryInput" placeholder="আপনার প্রশ্ন লিখুন..." />
+        </div>
+
+        <button class="search-btn" onclick="searchAI()">সার্চ করুন</button>
+      </div>
+
+    </div>
+  </main>
+
+<script>
+  const encodedEmail = "bWRyYWhpbW1taTAxODg2OTczNjIzQGdtYWlsLmNvbQ==";
+
+  function openGmailComposer() {
+    const email = atob(encodedEmail);
+    const subject = encodeURIComponent("আপনার সাইট থেকে মেসেজ");
+    window.location.href = `mailto:${email}?subject=${subject}`;
+  }
+
+  document.getElementById('gmailContactBtn').addEventListener('click', openGmailComposer);
+
+  function updateDateTime() {
+    const now = new Date();
+    const optionsDate = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    const formattedDate = now.toLocaleDateString('bn-BD', optionsDate);
+    const formattedTime = now.toLocaleTimeString('bn-BD', { hour12: false });
+    document.getElementById('currentDate').textContent = `তারিখ: ${formattedDate}`;
+    document.getElementById('currentTime').textContent = `সময়: ${formattedTime}`;
+  }
+
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
+
+  const appStartDate = new Date();
+
+  function updateUptime() {
+    const now = new Date();
+    let diff = Math.floor((now - appStartDate) / 1000);
+
+    const years = Math.floor(diff / (365 * 24 * 3600));
+    diff -= years * 365 * 24 * 3600;
+
+    const months = Math.floor(diff / (30 * 24 * 3600));
+    diff -= months * 30 * 24 * 3600;
+
+    const days = Math.floor(diff / (24 * 3600));
+    diff -= days * 24 * 3600;
+
+    const hours = Math.floor(diff / 3600);
+    diff -= hours * 3600;
+
+    const minutes = Math.floor(diff / 60);
+    diff -= minutes * 60;
+
+    const seconds = diff;
+
+    document.getElementById('uptime').textContent =
+      `এ আই চালু হয়েছে: ${years} বছর ${months} মাস ${days} দিন ${hours} ঘন্টা ${minutes} মিনিট ${seconds} সেকেন্ড`;
+  }
+
+  setInterval(updateUptime, 1000);
+  updateUptime();
+
+  document.getElementById('queryInput').addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      searchAI();
+    }
+  });
+
+  document.getElementById('aiSelector').addEventListener('change', function(){
+    const query = document.getElementById('queryInput').value.trim();
+    if(query.length > 0){
+      searchAI();
+    }
+  });
+
+  function searchAI(){
+    const ai = document.getElementById('aiSelector').value;
+    const query = document.getElementById('queryInput').value.trim();
+    if(!query){
+      alert('একটু লিখো ভাই।');
+      return;
+    }
+    const encodedQuery = encodeURIComponent(query);
+    let url = '';
+
+    switch(ai){
+      case 'perplexity':
+        url = `https://www.perplexity.ai/search?q=${encodedQuery}`;
+        break;
+      case 'copilot':
+        url = `https://copilot.microsoft.com/?q=${encodedQuery}`;
+        break;
+      case 'chatgpt':
+        url = 'https://chat.openai.com/';
+        break;
+      case 'gemini':
+        url = 'https://gemini.google.com/app';
+        break;
+      case 'claude':
+        url = 'https://claude.ai/chat';
+        break;
+      case 'bard':
+        url = 'https://bard.google.com/';
+        break;
+      case 'anthropic':
+        url = 'https://claude.ai/chat';
+        break;
+      case 'openai':
+        url = 'https://chat.openai.com/';
+        break;
+      case 'jasper':
+        url = 'https://www.jasper.ai/';
+        break;
+      case 'writesonic':
+        url = 'https://writesonic.com/';
+        break;
+      case 'chatsonic':
+        url = 'https://writesonic.com/chat';
+        break;
+      case 'deepmind':
+        url = 'https://www.deepmind.com/';
+        break;
+      case 'huggingface':
+        url = 'https://huggingface.co/';
+        break;
+      case 'youchat':
+        url = 'https://you.com/';
+        break;
+      case 'replit':
+        url = 'https://replit.com/site/ai';
+        break;
+      case 'copyai':
+        url = 'https://www.copy.ai/';
+        break;
+      case 'veo3':
+        url = 'https://www.veo.co/';
+        break;
+      case 'gemini_video':
+        url = 'https://gemini.google/overview/video-generation/?hl=en';
+        break;
+      default:
+        alert('ঠিকঠাক AI বেছে নাও।');
+        return;
+    }
+
+    window.open(url, '_blank');
+  }
+
+  const imageInput = document.getElementById('imageInput');
+  const previewContainer = document.getElementById('previewContainer');
+
+  imageInput.addEventListener('change', function(){
+    const files = Array.from(this.files);
+    if(files.length > 5){
+      alert('একসাথে সর্বোচ্চ ৫টি ছবি সিলেক্ট করতে পারবেন।');
+      this.value = '';
+      previewContainer.innerHTML = '';
+      return;
+    }
+
+    previewContainer.innerHTML = '';
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = function(e){
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        previewContainer.appendChild(img);
+      }
+      reader.readAsDataURL(file);
+    });
+  });
+</script>
+
+</body>
+</html>
